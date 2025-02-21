@@ -79,7 +79,7 @@ body{
     color: #333;
 }
 
-.item-form__input{
+.item-form__textarea{
     resize: none;
 }
 .item-form__button{
