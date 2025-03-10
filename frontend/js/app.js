@@ -4,10 +4,12 @@ const formCadastro = document.getElementById("item-form");
 
 //Funções utilitárias
 const resetForm = () => {
+  //Reseta os campos preenchidos após cadastrar um item
   document.getElementById("name").value = "";
   document.getElementById("description").value = "";
 };
 
+//mostrar messagem de cadastrado com sucesso
 const showMessage = (text, cor) => {
   const message = document.getElementById('message')
   message.textContent = text
@@ -16,33 +18,42 @@ const showMessage = (text, cor) => {
 
 //Inicio do cadastro do item 
 const handleFormSubmit = async(event) => {
-  event.preventDefault();
+  //previne da página atualizar
+    event.preventDefault();
 
-  const name = document.getElementById("name").value;
-  const description = document.getElementById("description").value;
+    //pega o valor dos campos preenchidos
+    const name = document.getElementById("name").value;
+    const description = document.getElementById("description").value;
 
-  const item = {
-    name: name,
-    description: description
-  }
+    //transforma os dados em um array
+    const item = {
+      name: name,
+      description: description
+    }
 
-  await sendItem(item);
-  
-};
-const sendItem = async (objItem) => {
-    try {
-        const res = await fetch(`${BASE_URL}/items`, {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json",
-                connection: 'close'
-            },
+    //uma função de call back asyncrona
+    await sendItem(item);
+    
+  };
+    //função para enviar os itens para a API
+  const sendItem = async (objItem) => {
+      try {
+        //resposta da api
+          const res = await fetch(`${BASE_URL}/items`, {
+            //posta os itens na API
+              method: 'POST',
+              headers: {
+                  "Content-Type": "application/json",
+                  connection: 'close'
+              },
             body: JSON.stringify(objItem) //Transformar um obj JS em obj JSON
         })
-
+        //erro caso a resposta seja diferente de ok(200)
         if(!res.ok){
-            const error = await res.json().catch(() => {
-              message: "Erro Desconhecido"
+           // Tenta converter a resposta JSON da requisição 'res' em um objeto JavaScript
+        const error = await res.json().catch(() => {
+  // Caso ocorra um erro durante a conversão, define o erro com a mensagem "Erro Desconhecido"
+      return { message: "Erro Desconhecido" };
             })
             
             console.log(error)
